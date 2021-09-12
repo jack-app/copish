@@ -7,8 +7,14 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: "module",
   },
-  settings: { react: { version: "detect" } },
-  plugins: ["import", "simple-import-sort", "react-hooks", "tailwindcss"],
+  settings: {
+    react: { version: "detect" },
+    "import/resolver": {
+      "node": {
+        "extensions": [".ts"]
+      }
+  },
+  plugins: ["import", "simple-import-sort", "react-hooks", "tailwindcss","@typescript-eslint"],
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
@@ -65,7 +71,12 @@ module.exports = {
   overrides: [
     {
       files: ["src/pages/**/*.tsx"],
-      rules: { "import/no-default-export": "off" },
+      rules: {
+        "import/no-default-export": "off" ,
+        "sort-imports": 0,
+        "import/order": [2, { "alphabetize": { "order": "asc" } }]
+      },
     },
-  ],
+  ]
+}
 };
