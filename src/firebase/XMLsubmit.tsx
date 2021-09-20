@@ -34,16 +34,8 @@ function XMLsubmit() {
         };
           xhr.open("GET", source);
           xhr.send();
-
-          
     };
-    // : acceptedFiles => {
-    //     setUploadfile(acceptedFiles.map(file => {
-    //         Object.assign(file, {preview: URL.createObjectURL(file)});
-    //         uploadFile(file);
-    //     }));
-    // }
-    //initialize
+
     const { acceptedFiles, getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
         onDrop,
         accept: 'text/xml',
@@ -51,9 +43,6 @@ function XMLsubmit() {
         maxSize,
     });
 
-
-
-    
     return (
         <div>
         <div className="container m-5 text-center">
