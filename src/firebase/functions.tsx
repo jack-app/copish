@@ -1,5 +1,7 @@
-import { getFirestore, setDoc, collection, doc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getFirestore, setDoc, collection, doc, getDoc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL}  from "firebase/storage";
+
+
 import { app } from "./config/config"
 
 const storage = getStorage(app);
@@ -69,4 +71,17 @@ export const getXMLFile = (id:string) => {
     console.log(error);
   });
 
+}
+
+export const getLastId = async () => {
+  const docRef = doc(db, "id", "lastid");
+  const docSnap = await getDoc(docRef);
+  
+  if (docSnap.exists()) {
+    return docSnap.data().id;
+  } else {
+    // doc.data() will be undefined in this case
+    return null;
+  }
+    
 }
