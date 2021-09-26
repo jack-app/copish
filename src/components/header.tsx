@@ -1,9 +1,8 @@
 import React from "react";
 
-export const Usage = () => {
+export const Hedddaaar = () => {
     return (
       <div className="Usage">
-        <h1>使い方です</h1>
       </div>
     );
 };

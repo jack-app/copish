@@ -1,9 +1,9 @@
 import React from "react";
 
-export const Usage = () => {
+export const Search = () => {
     return (
       <div className="Usage">
-        <h1>使い方です</h1>
+        <h1>検索結果です！</h1>
       </div>
     );
 };
