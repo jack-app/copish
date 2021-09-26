@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { sendStorage } from './functions';
+import { saveStorage } from './functions';
 import { Texteditor } from '../components/texteditor'
 import { render } from "react-dom";
 import AceEditor from "react-ace";
@@ -16,41 +16,28 @@ function XMLsubmit() {
     
     //dropzone
     const onDrop = useCallback((acceptedFiles) => {
-        //同名のファイルは書き換えられてしまうひょ
-        //uuid使うべきかしらね
         if (acceptedFiles.length > 0) {
             setUploadfile(acceptedFiles[0]);
-            acceptedFiles[0].name ? console.log(acceptedFiles[0].name) : console.log('no');
-            sendStorage(uploadfile,acceptedFiles[0].name);
-            console.log('file accepted¡');
+            saveStorage(uploadfile);
+            //XMLファイルを読み込む
             var reader = new FileReader();
             reader.onload = () => {
-                var dpObj = new DOMParser();
-                var result = String(reader.result);
-                //console.log('result',reader.result);
-                var a = dpObj.parseFromString(result, "text/xml");
-                setXmlDoc(a.getElementsByTagName('content')[0]);
-                console.log(result);
+                openXML(reader.result);
             }
             reader.readAsText(acceptedFiles[0]);
-        
-    }
+        }
     }, []);
 
-    const openXML = (source: string) => {
-        var xhr = new XMLHttpRequest();
-        const [xml, setXML] = useState<any|null>();
-        xhr.onload = (e) => {
-           setXML(xhr.responseXML);
-            if (xml != null){
-              console.log(xml);
-              var folder = xml.getElementByTagname('folder');
-            } else {
-              console.log('not xml file');
-            }
-        };
-          xhr.open("GET", source);
-          xhr.send();
+    const openXML = (source: any) => {
+        var dpObj = new DOMParser();
+        var result = String(source);
+        var xml = dpObj.parseFromString(result, "text/xml");
+        var folder = xml.getElementsByTagName('folder');
+        var snipetList = [];
+        for(var i=0;i<folder.length;i++){
+            snipetList.push(folder[i].getElementsByTagName('title')[0].textContent);
+        }
+        console.log(snipetList);
     };
 
     const { acceptedFiles, getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
@@ -87,11 +74,12 @@ function XMLsubmit() {
         >fire storageに送る！</button>
         <div>
             XMLファイルの内容: <br/>
-            {xmlDoc && xmlDoc}
+            {xmlDoc && 
+            <Texteditor
+                value={xmlDoc}
+            />}
         </div>
-        <Texteditor
-        defaultValue = {xmlDoc}
-      />
+        
         </div>
     );
 }

@@ -1,3 +1,4 @@
+import React,{useState} from "react";
 import { getFirestore, setDoc, collection, doc, getDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL}  from "firebase/storage";
 
@@ -35,8 +36,10 @@ export const test = async (xmlid: number) => {
   }
 };
 
-export const sendStorage = (file: File,name:any) => {
-  const xmlRef = ref(storage, `xmlfiles/${name}`);
+export const saveStorage = (file: File) => {
+  var lastId = fetchLastId();
+  const xmlRef = ref(storage, `xmlfiles/${lastId}.xml`);
+
   // 'file' comes from the Blob or File API
   uploadBytes(xmlRef, file).then((snapshot) => {
     console.log('Uploaded a blob or file!');
@@ -51,7 +54,7 @@ export const getXMLFile = (id:string) => {
     xhr.onload = (e) => {
       const xml = xhr.responseXML;
       if (xml != null){
-        console.log('yes takasu clinic!')
+        console.log('yes')
         console.log(xml);
       } else {
         console.log('not xml file');
@@ -59,12 +62,6 @@ export const getXMLFile = (id:string) => {
       xhr.open("GET", url);
       xhr.send();
     }
-    // fetch(url)
-    // .then(response => {
-    //   console.log(response.blob);
-    //   var reader = new FileReader();
-    //   console.log(reader.result);
-    // })
   })
   .catch((error) => {
     // Handle any errors
@@ -73,15 +70,28 @@ export const getXMLFile = (id:string) => {
 
 }
 
-export const getLastId = async () => {
+export const fetchLastId = async () => {
   const docRef = doc(db, "id", "lastid");
   const docSnap = await getDoc(docRef);
   
   if (docSnap.exists()) {
-    return docSnap.data().id;
+    console.log(docSnap.data().id)
+    return Number(docSnap.data().id);
   } else {
     // doc.data() will be undefined in this case
     return null;
   }
     
 }
+
+export const updateLastId = async () => {
+  var lastId = fetchLastId();
+  try {
+    await setDoc(doc(db, "id",`lastid`),{id: lastId});
+    console.log("ID registered: ", lastId);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+  return lastId
+}
+

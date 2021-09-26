@@ -2,9 +2,9 @@ import React from "react";
 
 export const Usage = () => {
     return (
-      <div className="App">
+      <div className="Usage">
         {/* ここに書く */}
-        
+
       </div>
     );
-  };
+};
