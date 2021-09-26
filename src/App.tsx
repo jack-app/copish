@@ -1,24 +1,19 @@
 import React,{useState} from "react";
+import {Component} from 'react';
 
+import {Upload} from './pages/upload';
+import {Usage} from './pages/usage'
 import "./App.css";
 import { test, getXMLFile, fetchLastId } from "./firebase/functions"
 import XMLsubmit from "./firebase/XMLsubmit"
 import { Texteditor } from './components/texteditor'
 
 export const App = () => {
-  const [lastId,setLastId]=useState(0);
-  return (
-    <div className="App">
-      <button
-        onClick = {()=>test(3)}
-      >firestoreのテスト</button>
-      <button
-        onClick = {()=>getXMLFile('test')}
-      >id1を叩く</button>
-      <XMLsubmit/>
-      <button
-        onClick = {() => fetchLastId()}
-      >最後のIDをとってくる</button>
-    </div>
-  );
-};
+    return (
+      <div className="App">
+       <Upload/>
+       <Usage/>
+      </div>
+    );
+ }
+
