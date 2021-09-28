@@ -17,7 +17,7 @@ export const Texteditor: React.FC<Props> = props => {
     
     return(
         <AceEditor
-        mode="xml"
+        mode="text"
         theme="github"
         onChange={onChange}
         name="UNIQUE_ID_OF_DIV"

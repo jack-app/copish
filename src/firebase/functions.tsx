@@ -38,6 +38,7 @@ export const test = async (xmlid: number) => {
 
 export const saveStorage = (file: File) => {
   var lastId = fetchLastId();
+  console.log(lastId);
   const xmlRef = ref(storage, `xmlfiles/${lastId}.xml`);
 
   // 'file' comes from the Blob or File API
@@ -45,11 +46,10 @@ export const saveStorage = (file: File) => {
     console.log('Uploaded a blob or file!');
   });
 }
-
+// id.xmlのXMLファイルをダウンロードするためのURLを取得する
 export const getXMLFile = (id:string) => {
   getDownloadURL(ref(storage, `xmlfiles/${id}.xml`))
   .then((url) => {
-    // console.log(url);
     var xhr = new XMLHttpRequest();
     xhr.onload = (e) => {
       const xml = xhr.responseXML;
@@ -70,6 +70,7 @@ export const getXMLFile = (id:string) => {
 
 }
 
+//id番号をとってくる
 export const fetchLastId = async () => {
   const docRef = doc(db, "id", "lastid");
   const docSnap = await getDoc(docRef);
