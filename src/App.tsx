@@ -1,24 +1,46 @@
+import React,{useState} from "react";
+import {Component} from 'react';
+
+import ReactDOM from 'react-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useParams,
+  useHistory,
+  useLocation,
+} from 'react-router-dom';
+
+import {Upload} from './pages/upload';
+import {Usage} from './pages/usage';
+import {Home} from './pages/home';
+import {Search} from './pages/search';
 import "./App.css";
 
-import logo from "./logo.svg";
-
 export const App = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-};
+    return (
+      <div>
+        <Router>
+          <Switch>
+            <Route path="/" exact>
+              <Home />
+            </Route>
+            <Route path="/usage" exact>
+              <Usage />
+            </Route>
+            <Route path="/search" exact>
+              <Search />
+            </Route>
+            <Route path="/upload" exact>
+              <Upload />
+            </Route>
+          </Switch>
+        </Router>
+      </div>
+      
+    );
+ }
+// import { test, getXMLFile, fetchLastId } from "./firebase/functions"
+// import XMLsubmit from "./firebase/XMLsubmit"
+// import { Texteditor } from './components/texteditor'
+
