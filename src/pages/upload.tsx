@@ -7,9 +7,9 @@ import { UploadBtn } from '../components/uploadBtn';
 export const Upload = () => {
   const [xmlDoc,setXmlDoc]=useState<any|null>();
   const [lastId, setLastId]=useState<string>();
-  const titleRef = useRef(null);
-  //const tagRef = useRef(null);
-  const descRef = useRef(null);
+  const [title, setTitle]=useState<string>('');
+  const [tag, setTag] = useState<string>('');
+  const [desc, setDesc] = useState<string>('');
 
   const handleInputXmlDoc = (file: any) => {
     setXmlDoc(file);
@@ -27,17 +27,20 @@ return (
         /><br/>
 
         <b>タイトル</b><br/>
-        <input ref={titleRef} type="text" /><br/>
+        <input type="text" onChange={(e) => {setTitle(e.target.value)}} /><br/>
 
         <b>タグ</b><br/>
-        <input/><br/>
+        <input type="text" onChange={(e) => {setTag(e.target.value)}}/><br/>
 
         <b>説明</b><br/>
-        <textarea value={titleRef} type="text" /><br/>
+        <textarea onChange={(e) => {setDesc(e.target.value)}} /><br/>
 
         <UploadBtn
          file = {xmlDoc}
          handleLastId={handleLastId}
+         title = {title}
+         desc = {desc}
+         tag = {tag}
         />
         <b>注釈</b>
         <p>投稿後、削除を依頼する場合下記のメールアドレスに連絡ください</p>
